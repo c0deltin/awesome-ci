@@ -1,11 +1,12 @@
 package acigithub
 
 import (
-	"awesome-ci/src/tools"
 	"context"
 	"fmt"
 	"log"
 	"os"
+
+	"fullstack-devops/awesome-ci/src/tools"
 
 	"github.com/google/go-github/v44/github"
 	"golang.org/x/oauth2"

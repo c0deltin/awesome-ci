@@ -1,11 +1,11 @@
-module awesome-ci
+module fullstack-devops/awesome-ci
 
 go 1.17
 
 require (
-	github.com/coreos/go-semver v0.3.0
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/google/go-github/v44 v44.0.0
+	github.com/spf13/cobra v1.5.0
 	github.com/xanzy/go-gitlab v0.64.0
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	gopkg.in/yaml.v2 v2.4.0
@@ -26,12 +26,14 @@ require (
 	github.com/hashicorp/go-hclog v1.2.0 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.1 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
+	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/xanzy/ssh-agent v0.3.1 // indirect
 	golang.org/x/crypto v0.0.0-20220507011949-2cf3adece122 // indirect
 	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4 // indirect

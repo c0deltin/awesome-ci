@@ -1,8 +1,6 @@
-package service
+package release
 
 import (
-	"awesome-ci/src/acigithub"
-	"awesome-ci/src/tools"
 	"context"
 	"fmt"
 	"io/ioutil"
@@ -11,9 +9,10 @@ import (
 	"testing"
 	"time"
 
+	"fullstack-devops/awesome-ci/pkg/acigithub"
+	"fullstack-devops/awesome-ci/src/tools"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
-	"github.com/go-git/go-git/v5/plumbing/transport/http"
 	"github.com/google/go-github/v44/github"
 )
 

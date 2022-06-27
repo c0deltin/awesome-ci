@@ -1,9 +1,10 @@
-package service
+package release
 
 import (
-	"awesome-ci/src/acigithub"
 	"strings"
 	"testing"
+
+	"fullstack-devops/awesome-ci/pkg/acigithub"
 )
 
 func TestCreateFirstRelease(t *testing.T) {

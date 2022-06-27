@@ -1,13 +1,12 @@
 package acigitlab
 
 import (
-	"awesome-ci/src/models"
-	"awesome-ci/src/semver"
 	"context"
 	"errors"
 	"fmt"
 	"strings"
 
+	"fullstack-devops/awesome-ci/pkg/semver"
 	"github.com/xanzy/go-gitlab"
 )
 
@@ -16,12 +15,26 @@ var (
 	// githubRepository, isgithubRepository = os.LookupEnv("GITHUB_REPOSITORY")
 )
 
+type StandardPrInfos struct {
+	PrNumber       int
+	Owner          string
+	Repo           string
+	PatchLevel     semver.PatchLevel
+	CurrentVersion string
+	LatestVersion  string
+	NextVersion    string
+	Sha            string
+	ShaShort       string
+	BranchName     string
+	MergeCommitSha string
+}
+
 func devideOwnerAndRepo(fullRepo string) (owner string, repo string) {
 	return strings.Split(fullRepo, "/")[0], strings.Split(fullRepo, "/")[1]
 }
 
 // GetPrInfos need the PullRequest-Number
-func GetMrInfos(mrNumber int) (standardPrInfos *models.StandardPrInfos, prInfos *gitlab.MergeRequest, err error) {
+func GetMrInfos(mrNumber int) (standardPrInfos *StandardPrInfos, prInfos *gitlab.MergeRequest, err error) {
 	if mrNumber != 0 {
 		prInfos, _, err = GitLabClient.MergeRequests.GetMergeRequest(1, mrNumber, nil, nil)
 		if err != nil {
@@ -34,7 +47,7 @@ func GetMrInfos(mrNumber int) (standardPrInfos *models.StandardPrInfos, prInfos 
 	branchName := prInfos.Reference
 	patchLevel := semver.ParsePatchLevel(branchName)
 
-	standardPrInfos = &models.StandardPrInfos{
+	standardPrInfos = &StandardPrInfos{
 		PrNumber:   mrNumber,
 		BranchName: branchName,
 		Sha:        prSHA,

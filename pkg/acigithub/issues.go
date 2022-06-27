@@ -1,10 +1,11 @@
 package acigithub
 
 import (
-	"awesome-ci/src/tools"
 	"fmt"
 	"log"
 	"strings"
+
+	"fullstack-devops/awesome-ci/src/tools"
 
 	"github.com/google/go-github/v44/github"
 )

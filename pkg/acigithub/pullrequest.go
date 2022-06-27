@@ -1,19 +1,64 @@
 package acigithub
 
 import (
-	"awesome-ci/src/models"
-	"awesome-ci/src/semver"
-	"awesome-ci/src/tools"
 	"fmt"
 	"log"
 	"os"
 	"regexp"
+	"strconv"
+
+	"fullstack-devops/awesome-ci/pkg/semver"
+	"fullstack-devops/awesome-ci/src/tools"
 
 	"github.com/google/go-github/v44/github"
 )
 
+type StandardPrInfos struct {
+	PrNumber       int
+	Owner          string
+	Repo           string
+	PatchLevel     semver.PatchLevel
+	CurrentVersion string
+	LatestVersion  string
+	NextVersion    string
+	Sha            string
+	ShaShort       string
+	BranchName     string
+	MergeCommitSha string
+}
+
+func StandardPrInfosToEnv(prInfos *StandardPrInfos) (err error) {
+	runnerType := "github_runner"
+	switch runnerType {
+	case "github_runner":
+		envVars, err := OpenEnvFile()
+		if err != nil {
+			return err
+		}
+		envVars.Set("ACI_PR", strconv.Itoa(prInfos.PrNumber))
+		envVars.Set("ACI_PR_SHA", prInfos.Sha)
+		envVars.Set("ACI_PR_SHA_SHORT", prInfos.ShaShort)
+		envVars.Set("ACI_PR_BRANCH", prInfos.BranchName)
+		envVars.Set("ACI_MERGE_COMMIT_SHA", prInfos.MergeCommitSha)
+
+		envVars.Set("ACI_OWNER", prInfos.Owner)
+		envVars.Set("ACI_REPO", prInfos.Repo)
+		envVars.Set("ACI_PATCH_LEVEL", string(prInfos.PatchLevel))
+		envVars.Set("ACI_VERSION", prInfos.NextVersion)
+		envVars.Set("ACI_LATEST_VERSION", prInfos.LatestVersion)
+
+		err = envVars.SaveEnvFile()
+		if err != nil {
+			return err
+		}
+	default:
+		log.Println("Runner Type not implemented!")
+	}
+	return
+}
+
 // GetPrInfos need the PullRequest-Number
-func GetPrInfos(prNumber int, mergeCommitSha string) (standardPrInfos *models.StandardPrInfos, prInfos *github.PullRequest, err error) {
+func GetPrInfos(prNumber int, mergeCommitSha string) (standardPrInfos *StandardPrInfos, prInfos *github.PullRequest, err error) {
 	if !isgithubRepository {
 		log.Fatalln("make shure the GITHUB_REPOSITORY is available!")
 	}
@@ -120,7 +165,7 @@ func GetPrInfos(prNumber int, mergeCommitSha string) (standardPrInfos *models.St
 		}
 	}
 
-	standardPrInfos = &models.StandardPrInfos{
+	standardPrInfos = &StandardPrInfos{
 		PrNumber:       prNumber,
 		Owner:          owner,
 		Repo:           repo,
